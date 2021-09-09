@@ -9,4 +9,4 @@ FR Coding Backtest Module Skeleton Code + Financial Data CSV Files Database
     주기: 일별 데이터
     포함 내역: Date, Open, High, Low, Close, Volume, Net Profit Margin, Sales Growth QOQ, Price to Book Value
   
-  2. efwefwwer
+2. efe
