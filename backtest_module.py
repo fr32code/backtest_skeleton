@@ -8,7 +8,7 @@ from functools import reduce
 class Variables:
 
     # 자산별로 동일하게 적용되는 한 포지션 진입 시 홀딩 기간 (int)
-    holding_period = 60
+    holding_period = 240
 
     # 전체 포트폴리오 리밸런싱 주기 (int)
     rebalancing_period = 1
@@ -18,7 +18,7 @@ class Variables:
     cs_factor_type = 'equal_marginal_volatility'
 
     # cs_factor_type 'rank' 방식 사용시 롱/숏별로 리밸런싱 시 진입할 총 자산 개수 (int)
-    n_selection = 30
+    n_selection = 50
 
     # cs_factor_type 'rank' 방식 사용시 선정된 자산 대한 배분 방식 (string)
     # -> 종류는 cs_factor_type에서 'rank' 제외한 모든 방식 가능
@@ -43,7 +43,7 @@ class Variables:
     cost = 0.003
 
     # 롱만 사용할 것인지, 롱/숏 둘 다 사용할 것인지 (boolean)
-    long_only = True
+    long_only = False
 
 # 횡적, 종적 리스크 계산 클래스
 class RiskEngine:
