@@ -18,7 +18,7 @@ class Variables:
     cs_factor_type = 'equal_marginal_volatility'
 
     # cs_factor_type 'rank' 방식 사용시 롱/숏별로 리밸런싱 시 진입할 총 자산 개수 (int)
-    n_selection = 100
+    n_selection = 30
 
     # cs_factor_type 'rank' 방식 사용시 선정된 자산 대한 배분 방식 (string)
     # -> 종류는 cs_factor_type에서 'rank' 제외한 모든 방식 가능
@@ -43,7 +43,7 @@ class Variables:
     cost = 0.003
 
     # 롱만 사용할 것인지, 롱/숏 둘 다 사용할 것인지 (boolean)
-    long_only = False
+    long_only = True
 
 # 횡적, 종적 리스크 계산 클래스
 class RiskEngine:
@@ -343,11 +343,11 @@ if __name__ == "__main__":
     # 이 경우 데이터 특성을 고려해 df2, df3의 음수 값 점수 부여 용이하게끔 수정
     df_list = [df2, df3]
     for i in range(len(df_list)):
-        B1 = df_list[i]
+        B1 = df_list[i][df_list[i].columns.tolist()]
         B1[B1 >= 0] = 1
         B1[B1 < 0] = 0
         
-        B2 = df_list[i]
+        B2 = df_list[i][df_list[i].columns.tolist()]
         B2[B2 >= 0] = 0
         B2[B2 < 0] = 1
         
