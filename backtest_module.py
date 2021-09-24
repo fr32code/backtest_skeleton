@@ -318,3 +318,43 @@ class Factor(RiskEngine):
 -각 지표는 종목들에 걸쳐 오름차순 혹은 내림차순으로 점수를 부여할 수 
 있게끔 단방향으로 판단가능하게끔 나열되어 있어야 함 (음수 값 처리 중요)
 '''
+
+# 사용 예시
+if __name__ == "__main__":
+   
+    prices = pd.read_csv('https://raw.githubusercontent.com/fr32code/backtest_skeleton/main/Adj.%20Close_data.csv')
+    prices.index = pd.to_datetime(prices['Date'])
+    prices = prices.drop(columns=['Date'])
+
+    df1 = pd.read_csv('https://raw.githubusercontent.com/fr32code/backtest_skeleton/main/Market-Cap_data.csv')
+    df1.index = pd.to_datetime(df1['Date'])
+    df1 = df1.drop(columns=['Date'])
+
+    df2 = pd.read_csv('https://raw.githubusercontent.com/fr32code/backtest_skeleton/main/PDIVE_data.csv')
+    df2.index = pd.to_datetime(df2['Date'])
+    df2 = df2.drop(columns=['Date'])
+
+    df3 = pd.read_csv('https://raw.githubusercontent.com/fr32code/backtest_skeleton/main/Price%20to%20Book%20Value_data.csv')
+    df3.index = pd.to_datetime(df3['Date'])
+    df3 = df3.drop(columns=['Date'])
+    
+    sizeFactor = Factor(df1, ascending_bool_list=[True], prices=prices)
+    
+    # 이 경우 데이터 특성을 고려해 df2, df3의 음수 값 점수 부여 용이하게끔 수정
+    df_list = [df2, df3]
+    for i in range(len(df_list)):
+        B1 = df_list[i]
+        B1[B1 >= 0] = 1
+        B1[B1 < 0] = 0
+        
+        B2 = df_list[i]
+        B2[B2 >= 0] = 0
+        B2[B2 < 0] = 1
+        
+        max_df = B2.mul(df_list[i].max(axis=1).values, axis=0)
+        
+        df_list[i] = B1 * df_list[i] + max_df + abs(B2 * df_list[i])
+            
+    
+    valueFactor = Factor(df_list[0], df_list[1], ascending_bool_list=[False, False], prices=prices)
+    backtest = MultiFactorBacktest(sizeFactor, valueFactor, multi=True, prices=prices)
