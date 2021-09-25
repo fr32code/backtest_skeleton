@@ -44,4 +44,9 @@ FR Coding Backtest Module Skeleton Code + Financial Data CSV Files Database
     -> 밑의 링크를 통해 각 데이터가 무엇을 의미하는지 상세확인 가능
     https://github.com/SimFin/simfin-tutorials/blob/master/04_Signals.ipynb
     
+   
+-Python Code-
+
+  backtest_module.py
+  : 백테스팅 모듈 스켈레톤 소스코드 파일
     
